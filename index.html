@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dragonfire Game Corner</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts: Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                50: "#fff1f2",
+                500: "#ff4757",
+                600: "#e03a49",
+              },
+            },
+          },
+        },
+      };
+
+      // Auto Dark Mode Logic
+      if (
+        localStorage.getItem("theme") === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
+
+    <style>
+      /* Custom Styles */
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .dark .glass-nav {
+        background: rgba(15, 23, 42, 0.85);
+      }
+
+      .hero-pattern {
+        background-color: #111827;
+        background-image: radial-gradient(
+            rgba(255, 71, 87, 0.15) 2px,
+            transparent 2px
+          ),
+          radial-gradient(rgba(255, 71, 87, 0.15) 2px, transparent 2px);
+        background-size: 40px 40px;
+        background-position: 0 0, 20px 20px;
+      }
+
+      /* Hover Glow Effects */
+      .glow-ps4:hover i {
+        filter: drop-shadow(0 0 15px rgba(88, 101, 242, 0.8));
+      }
+      .glow-ps5:hover i {
+        filter: drop-shadow(0 0 15px rgba(30, 144, 255, 0.8));
+      }
+      .glow-switch:hover i {
+        filter: drop-shadow(0 0 15px rgba(255, 71, 87, 0.8));
+      }
+      .glow-pc:hover i {
+        filter: drop-shadow(0 0 15px rgba(0, 168, 255, 0.8));
+      }
+      .glow-xbox:hover i {
+        filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.8));
+      }
+
+      /* Scroll Reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: all 0.8s ease-out;
+      }
+      .reveal-left.active {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(30px);
+        transition: all 0.8s ease-out;
+      }
+      .reveal-right.active {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Hamburger */
+      .hamburger span {
+        transition: all 0.3s ease;
+      }
+      .hamburger.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+
+      /* Custom Scrollbar for Cart */
+      .cart-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+      .cart-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .cart-scroll::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 10px;
+      }
+      .dark .cart-scroll::-webkit-scrollbar-thumb {
+        background-color: #475569;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 flex flex-col min-h-screen relative overflow-x-hidden"
+  >
+    <!-- Navbar -->
+    <nav
+      class="fixed w-full z-40 glass-nav border-b border-gray-200 dark:border-gray-800 transition-all duration-300"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <div
+            class="flex-shrink-0 flex items-center gap-2 cursor-pointer"
+            onclick="window.scrollTo(0,0)"
+          >
+            <i class="fa-solid fa-gamepad text-brand-500 text-2xl"></i>
+            <span
+              class="font-bold text-base sm:text-lg md:text-xl tracking-tight"
+              >Dragonfire Game Corner</span
+            >
+          </div>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex items-center space-x-1 lg:space-x-4">
+            <a
+              href="#beranda"
+              class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-brand-500 transition"
+              >Beranda</a
+            >
+            <a
+              href="#layanan"
+              class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-brand-500 transition"
+              >Layanan</a
+            >
+            <a
+              href="#harga"
+              class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-brand-500 transition"
+              >Harga</a
+            >
+            <a
+              href="#gamelist"
+              class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-brand-500 transition"
+              >Gamelist</a
+            >
+
+            <div class="h-6 w-px bg-gray-300 dark:bg-gray-700 mx-2"></div>
+
+            <!-- Cart Button -->
+            <button
+              onclick="toggleCart()"
+              class="relative p-2 text-gray-600 dark:text-gray-300 hover:text-brand-500 dark:hover:text-brand-500 transition"
+            >
+              <i class="fa-solid fa-cart-shopping text-lg"></i>
+              <span
+                id="cartBadgeDesktop"
+                class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-brand-500 rounded-full hidden"
+                >0</span
+              >
+            </button>
+
+            <!-- Login / User Button -->
+            <div id="authContainerDesktop" class="ml-2">
+              <button
+                onclick="openModal('loginModal')"
+                class="px-4 py-2 text-sm font-medium text-white bg-gray-800 dark:bg-gray-700 rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition"
+              >
+                Login
+              </button>
+            </div>
+
+            <!-- Theme Toggle -->
+            <button
+              id="themeToggleDesktop"
+              class="ml-2 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:scale-110 transition-transform"
+            >
+              <i class="fa-solid fa-moon dark:hidden text-gray-700"></i>
+              <i class="fa-solid fa-sun hidden dark:block text-yellow-400"></i>
+            </button>
+          </div>
+
+          <!-- Mobile menu buttons -->
+          <div class="md:hidden flex items-center gap-3">
+            <!-- Mobile Cart -->
+            <button
+              onclick="toggleCart()"
+              class="relative p-2 text-gray-600 dark:text-gray-300"
+            >
+              <i class="fa-solid fa-cart-shopping text-xl"></i>
+              <span
+                id="cartBadgeMobile"
+                class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-brand-500 rounded-full hidden"
+                >0</span
+              >
+            </button>
+
+            <button
+              id="themeToggleMobile"
+              class="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
+            >
+              <i class="fa-solid fa-moon dark:hidden text-gray-700"></i>
+              <i class="fa-solid fa-sun hidden dark:block text-yellow-400"></i>
+            </button>
+            <button
+              id="hamburger"
+              class="hamburger flex flex-col justify-center items-center w-8 h-8 focus:outline-none"
+            >
+              <span
+                class="block w-6 h-0.5 bg-gray-800 dark:bg-gray-200 mb-1.5 rounded-full"
+              ></span>
+              <span
+                class="block w-6 h-0.5 bg-gray-800 dark:bg-gray-200 mb-1.5 rounded-full"
+              ></span>
+              <span
+                class="block w-6 h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full"
+              ></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Overlay -->
+      <div
+        id="mobileMenu"
+        class="md:hidden fixed inset-0 top-16 bg-white dark:bg-gray-900 flex flex-col items-center justify-start pt-6 space-y-4 text-lg font-medium translate-x-full transition-transform duration-300 shadow-xl hidden z-30"
+      >
+        <div
+          id="authContainerMobile"
+          class="w-full px-6 pb-4 border-b border-gray-200 dark:border-gray-800 flex justify-center"
+        >
+          <button
+            onclick="openModal('loginModal'); toggleMobileMenu();"
+            class="w-full max-w-xs py-2 text-center text-sm font-medium text-white bg-gray-800 dark:bg-gray-700 rounded-lg"
+          >
+            Login / Daftar
+          </button>
+        </div>
+        <a href="#beranda" class="mobile-link hover:text-brand-500 transition"
+          >Beranda</a
+        >
+        <a href="#layanan" class="mobile-link hover:text-brand-500 transition"
+          >Layanan</a
+        >
+        <a href="#harga" class="mobile-link hover:text-brand-500 transition"
+          >Harga</a
+        >
+        <a href="#gamelist" class="mobile-link hover:text-brand-500 transition"
+          >Gamelist</a
+        >
+        <a href="#testimoni" class="mobile-link hover:text-brand-500 transition"
+          >Testimoni</a
+        >
+      </div>
+    </nav>
+
+    <main class="flex-grow">
+      <!-- Hero Section -->
+      <section
+        id="beranda"
+        class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden hero-pattern"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/90 dark:to-gray-900/100"
+        ></div>
+        <div
+          class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white reveal"
+        >
+          <span
+            class="inline-block py-1 px-3 rounded-full bg-brand-500/20 text-brand-500 border border-brand-500/30 text-sm font-semibold mb-4 backdrop-blur-sm"
+          >
+            🚀 #1 Pusat Pengisian Game
+          </span>
+          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+            Solusi Lengkap <span class="text-brand-500">Game Digital</span>
+          </h1>
+          <p
+            class="mt-4 max-w-2xl text-lg md:text-xl mx-auto text-gray-300 mb-10"
+          >
+            Isi game untuk PlayStation, Nintendo Switch, PC & Xbox dengan cepat,
+            aman, dan harga bersahabat. Koleksi paling update!
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#harga"
+              class="px-8 py-3 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold transition-all shadow-[0_0_15px_rgba(255,71,87,0.4)] hover:shadow-[0_0_25px_rgba(255,71,87,0.6)] transform hover:-translate-y-1"
+            >
+              Lihat Paket Harga
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Layanan Section -->
+      <section
+        id="layanan"
+        class="py-20 bg-white dark:bg-gray-800 transition-colors duration-300"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16 reveal">
+            <h2
+              class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+            >
+              Layanan Konsol & PC
+            </h2>
+            <div class="w-24 h-1 bg-brand-500 mx-auto rounded-full"></div>
+          </div>
+          <div
+            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6"
+          >
+            <!-- PS4 -->
+            <div
+              class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 glow-ps4 border border-gray-100 dark:border-gray-600 reveal-left"
+            >
+              <i
+                class="fa-brands fa-playstation text-4xl md:text-5xl text-[#5865f2] mb-4 block"
+              ></i>
+              <h3 class="font-semibold mb-2">PS4</h3>
+            </div>
+            <!-- PS5 -->
+            <div
+              class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 glow-ps5 border border-gray-100 dark:border-gray-600 reveal"
+            >
+              <i
+                class="fa-brands fa-playstation text-4xl md:text-5xl text-[#1e90ff] mb-4 block"
+              ></i>
+              <h3 class="font-semibold mb-2">PS5</h3>
+            </div>
+            <!-- Switch -->
+            <div
+              class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 glow-switch border border-gray-100 dark:border-gray-600 reveal"
+            >
+              <i
+                class="fa-solid fa-gamepad text-4xl md:text-5xl text-[#ff4757] mb-4 block"
+              ></i>
+              <h3 class="font-semibold mb-2">Switch</h3>
+            </div>
+            <!-- PC -->
+            <div
+              class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 glow-pc border border-gray-100 dark:border-gray-600 reveal"
+            >
+              <i
+                class="fa-solid fa-computer text-4xl md:text-5xl text-[#00a8ff] mb-4 block"
+              ></i>
+              <h3 class="font-semibold mb-2">PC Game</h3>
+            </div>
+            <!-- Xbox -->
+            <div
+              class="bg-gray-50 dark:bg-gray-700 rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 glow-xbox border border-gray-100 dark:border-gray-600 reveal-right col-span-2 lg:col-span-1"
+            >
+              <i
+                class="fa-brands fa-xbox text-4xl md:text-5xl text-[#2ecc71] mb-4 block"
+              ></i>
+              <h3 class="font-semibold mb-2">Xbox</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Harga Section -->
+      <section
+        id="harga"
+        class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16 reveal">
+            <h2
+              class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+            >
+              Daftar Harga Paket
+            </h2>
+            <div class="w-24 h-1 bg-brand-500 mx-auto rounded-full"></div>
+            <p class="mt-4 text-gray-600 dark:text-gray-400">
+              Pilih paket hemat yang paling sesuai dengan kebutuhan Anda.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <!-- Paket Basic -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 text-center reveal-left hover:-translate-y-2 transition-transform duration-300 flex flex-col"
+            >
+              <h3 class="text-2xl font-semibold mb-2">Paket Hemat</h3>
+              <p class="text-gray-500 dark:text-gray-400 mb-6">
+                Cocok untuk coba-coba
+              </p>
+              <div class="text-4xl font-bold text-brand-500 mb-6">
+                Rp 50.000<span
+                  class="text-lg text-gray-500 dark:text-gray-400 font-normal"
+                  >/4 Game</span
+                >
+              </div>
+              <ul
+                class="text-left space-y-3 mb-8 text-gray-600 dark:text-gray-300 flex-grow"
+              >
+                <li class="flex items-center">
+                  <i class="fa-solid fa-check text-green-500 mr-2"></i> Pilihan
+                  game bebas
+                </li>
+                <li class="flex items-center">
+                  <i class="fa-solid fa-check text-green-500 mr-2"></i> Proses
+                  1x24 Jam
+                </li>
+              </ul>
+              <button
+                onclick="addToCart({id: 'pkt-1', name: 'Paket Hemat (4 Game)', price: 50000, type: 'paket'})"
+                class="w-full py-3 rounded-lg border-2 border-brand-500 text-brand-500 font-semibold hover:bg-brand-500 hover:text-white transition-colors flex items-center justify-center gap-2"
+              >
+                <i class="fa-solid fa-cart-plus"></i> Masukkan Keranjang
+              </button>
+            </div>
+
+            <!-- Paket Medium -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border-2 border-brand-500 text-center reveal relative transform scale-105 z-10 flex flex-col"
+            >
+              <div
+                class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-500 text-white px-4 py-1 rounded-full text-sm font-bold"
+              >
+                TERLARIS
+              </div>
+              <h3 class="text-2xl font-semibold mb-2">Paket Medium</h3>
+              <p class="text-gray-500 dark:text-gray-400 mb-6">
+                Pilihan Paling Ideal
+              </p>
+              <div class="text-4xl md:text-5xl font-bold text-brand-500 mb-6">
+                Rp 100.000<span
+                  class="text-lg text-gray-500 dark:text-gray-400 font-normal"
+                  >/8 Game</span
+                >
+              </div>
+              <ul
+                class="text-left space-y-3 mb-8 text-gray-600 dark:text-gray-300 flex-grow"
+              >
+                <li class="flex items-center">
+                  <i class="fa-solid fa-check text-green-500 mr-2"></i> Free 1
+                  DLC Pilihan
+                </li>
+                <li class="flex items-center">
+                  <i class="fa-solid fa-check text-green-500 mr-2"></i>
+                  Prioritas Antrean
+                </li>
+              </ul>
+              <button
+                onclick="addToCart({id: 'pkt-2', name: 'Paket Medium (8 Game)', price: 90000, type: 'paket'})"
+                class="w-full py-3 rounded-lg bg-brand-500 text-white font-semibold hover:bg-brand-600 shadow-[0_4px_15px_rgba(255,71,87,0.4)] transition-all flex items-center justify-center gap-2"
+              >
+                <i class="fa-solid fa-cart-plus"></i> Masukkan Keranjang
+              </button>
+            </div>
+
+            <!-- Paket Jumbo -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 text-center reveal-right hover:-translate-y-2 transition-transform duration-300 flex flex-col"
+            >
+              <h3 class="text-2xl font-semibold mb-2">Paket Jumbo</h3>
+              <p class="text-gray-500 dark:text-gray-400 mb-6">
+                Untuk Gamer Sejati
+              </p>
+              <div class="text-4xl font-bold text-brand-500 mb-6">
+                Rp 150.000<span
+                  class="text-lg text-gray-500 dark:text-gray-400 font-normal"
+                  >/15 Game</span
+                >
+              </div>
+              <ul
+                class="text-left space-y-3 mb-8 text-gray-600 dark:text-gray-300 flex-grow"
+              >
+                <li class="flex items-center">
+                  <i class="fa-solid fa-check text-green-500 mr-2"></i> All DLCs
+                  Included
+                </li>
+                <li class="flex items-center">
+                  <i class="fa-solid fa-check text-green-500 mr-2"></i> Free
+                  Backup Cloud 1Bln
+                </li>
+              </ul>
+              <button
+                onclick="addToCart({id: 'pkt-3', name: 'Paket Jumbo (15 Game)', price: 150000, type: 'paket'})"
+                class="w-full py-3 rounded-lg border-2 border-brand-500 text-brand-500 font-semibold hover:bg-brand-500 hover:text-white transition-colors flex items-center justify-center gap-2"
+              >
+                <i class="fa-solid fa-cart-plus"></i> Masukkan Keranjang
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gamelist Section -->
+      <section
+        id="gamelist"
+        class="py-20 bg-white dark:bg-gray-800 transition-colors duration-300"
+      >
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-10 reveal">
+            <h2
+              class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+            >
+              Pencarian Game Satuan
+            </h2>
+            <div class="w-24 h-1 bg-brand-500 mx-auto rounded-full mb-6"></div>
+            <div class="relative max-w-xl mx-auto text-left">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i class="fa-solid fa-search text-gray-400"></i>
+              </div>
+              <input
+                type="text"
+                id="gameSearch"
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500 sm:text-sm transition-colors"
+                placeholder="Ketik judul game..."
+              />
+            </div>
+          </div>
+
+          <div
+            class="overflow-x-auto bg-gray-50 dark:bg-gray-700 rounded-xl shadow-sm border border-gray-200 dark:border-gray-600 reveal"
+          >
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
+              id="gameTable"
+            >
+              <thead class="bg-gray-100 dark:bg-gray-800">
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white uppercase"
+                  >
+                    Judul Game
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white uppercase hidden md:table-cell"
+                  >
+                    Platform
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white uppercase"
+                  >
+                    Harga (Satuan)
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-right text-sm font-semibold text-gray-900 dark:text-white uppercase"
+                  >
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="divide-y divide-gray-200 dark:divide-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                id="gameTableBody"
+              >
+                <!-- Data will be populated by JS -->
+              </tbody>
+            </table>
+            <div
+              id="noResults"
+              class="hidden p-8 text-center text-gray-500 dark:text-gray-400"
+            >
+              <i class="fa-solid fa-ghost text-4xl mb-3"></i>
+              <p>Game tidak ditemukan. Hubungi admin untuk request!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimoni Section (Kept minimal for brevity) -->
+      <section
+        id="testimoni"
+        class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+      >
+        <div class="max-w-7xl mx-auto px-4 text-center reveal">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            Terpercaya
+          </h2>
+          <div class="w-24 h-1 bg-brand-500 mx-auto rounded-full mb-8"></div>
+          <p class="text-gray-600 dark:text-gray-400">
+            Telah melayani lebih dari 1000+ gamers di seluruh Indonesia.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="text-gray-400 text-sm">
+          © 2026 Dragonfire Game Corner. All Rights Reserved.
+        </p>
+      </div>
+    </footer>
+
+    <!-- OVERLAYS & MODALS -->
+
+    <!-- Toast Notification (Replaces alert) -->
+    <div
+      id="toast"
+      class="fixed top-20 right-4 transform translate-x-full opacity-0 transition-all duration-300 z-[60] bg-gray-900 dark:bg-gray-800 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 border border-gray-700"
+    >
+      <i class="fa-solid fa-circle-info text-brand-500"></i>
+      <span id="toastMessage" class="text-sm font-medium">Message here</span>
+    </div>
+
+    <!-- Background Overlay for Modals -->
+    <div
+      id="modalOverlay"
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"
+      onclick="closeAllModals()"
+    ></div>
+
+    <!-- Login/Register Modal -->
+    <div
+      id="loginModal"
+      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 w-full max-w-md rounded-2xl shadow-2xl z-50 hidden opacity-0 transition-all duration-300 scale-95 border border-gray-200 dark:border-gray-700 overflow-hidden"
+    >
+      <div
+        class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50"
+      >
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+          Masuk / Daftar
+        </h3>
+        <button
+          onclick="closeModal('loginModal')"
+          class="text-gray-400 hover:text-gray-600 dark:hover:text-white transition"
+        >
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Nama Pengguna</label
+            >
+            <input
+              type="text"
+              id="usernameInput"
+              required
+              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none"
+              placeholder="Masukkan nama Anda"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Nomor WhatsApp (Opsional)</label
+            >
+            <input
+              type="text"
+              id="waInput"
+              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none"
+              placeholder="08123..."
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full py-3 mt-4 bg-brand-500 text-white rounded-lg font-semibold hover:bg-brand-600 transition shadow-lg shadow-brand-500/30"
+          >
+            Mulai Belanja
+          </button>
+          <p class="text-xs text-center text-gray-500 dark:text-gray-400 mt-4">
+            Hanya simulasi login. Data disimpan secara lokal di browser Anda.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Cart Drawer (Right Side Sidebar) -->
+    <div
+      id="cartDrawer"
+      class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white dark:bg-gray-800 shadow-2xl z-[55] transform translate-x-full transition-transform duration-300 flex flex-col border-l border-gray-200 dark:border-gray-700"
+    >
+      <!-- Cart Header -->
+      <div
+        class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50"
+      >
+        <h3
+          class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"
+        >
+          <i class="fa-solid fa-cart-shopping"></i> Keranjang
+        </h3>
+        <button
+          onclick="toggleCart()"
+          class="text-gray-400 hover:text-gray-600 dark:hover:text-white transition p-2 bg-gray-200 dark:bg-gray-700 rounded-full"
+        >
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Cart Items -->
+      <div
+        id="cartItemsContainer"
+        class="flex-grow p-4 overflow-y-auto cart-scroll flex flex-col gap-3"
+      >
+        <!-- Items will be injected here via JS -->
+        <div
+          class="flex-grow flex flex-col items-center justify-center text-gray-400 h-full"
+        >
+          <i class="fa-solid fa-basket-shopping text-4xl mb-3 opacity-50"></i>
+          <p>Keranjang masih kosong.</p>
+        </div>
+      </div>
+
+      <!-- Cart Footer -->
+      <div
+        class="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-gray-600 dark:text-gray-300 font-medium"
+            >Total Estimasi</span
+          >
+          <span id="cartTotal" class="text-xl font-bold text-brand-500"
+            >Rp 0</span
+          >
+        </div>
+        <button
+          onclick="checkoutToWhatsApp()"
+          class="w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold transition flex items-center justify-center gap-2 shadow-lg shadow-green-500/30"
+        >
+          <i class="fa-brands fa-whatsapp text-xl"></i> Checkout via WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // ==========================================
+      // APPLICATION STATE
+      // ==========================================
+      const state = {
+        user: JSON.parse(localStorage.getItem("df_user")) || null,
+        cart: JSON.parse(localStorage.getItem("df_cart")) || [],
+      };
+
+      // Mock Data for Single Games
+      const gameDatabase = [
+        {
+          id: "g1",
+          title: "Horizon Zero Dawn",
+          platform: "PS4, PC",
+          price: 15000,
+        },
+        { id: "g2", title: "Expedition 33", platform: "PS5, PC", price: 25000 },
+        {
+          id: "g3",
+          title: "Call Of Duty Infinite Warfare",
+          platform: "PC",
+          price: 30000,
+        },
+        {
+          id: "g4",
+          title: "Forza Horizon 5",
+          platform: "Xbox, PC",
+          price: 20000,
+        },
+        {
+          id: "g5",
+          title: "Red Dead Redemption 2",
+          platform: "PS4, PC",
+          price: 15000,
+        },
+        {
+          id: "g6",
+          title: "The Legend of Zelda: TOTK",
+          platform: "Switch",
+          price: 15000,
+        },
+        {
+          id: "g7",
+          title: "Grand Theft Auto V",
+          platform: "PC",
+          price: 25000,
+        },
+      ];
+
+      // ==========================================
+      // INITIALIZATION & UI RENDERING
+      // ==========================================
+      document.addEventListener("DOMContentLoaded", () => {
+        renderGameTable();
+        updateAuthUI();
+        updateCartUI();
+        setupBasicInteractions();
+      });
+
+      function formatRupiah(number) {
+        return new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+        }).format(number);
+      }
+
+      // Render Table Data
+      function renderGameTable() {
+        const tbody = document.getElementById("gameTableBody");
+        tbody.innerHTML = "";
+
+        gameDatabase.forEach((game) => {
+          const tr = document.createElement("tr");
+          tr.className =
+            "hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors";
+
+          // Platform Badges logic
+          const platforms = game.platform
+            .split(",")
+            .map((p) => {
+              let pClass =
+                "bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-200";
+              if (p.includes("PS4"))
+                pClass =
+                  "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+              if (p.includes("PS5"))
+                pClass =
+                  "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200";
+              if (p.includes("Switch"))
+                pClass =
+                  "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+              if (p.includes("PC"))
+                pClass =
+                  "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200";
+              if (p.includes("Xbox"))
+                pClass =
+                  "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+              return `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] sm:text-xs font-medium ${pClass} mr-1 mb-1">${p.trim()}</span>`;
+            })
+            .join("");
+
+          tr.innerHTML = `
+                  <td class="px-3 sm:px-6 py-4 whitespace-normal sm:whitespace-nowrap font-medium text-sm sm:text-base">${
+                    game.title
+                  }</td>
+                  <td class="px-3 sm:px-6 py-4 whitespace-nowrap hidden md:table-cell">${platforms}</td>
+                  <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-brand-500 font-semibold">${formatRupiah(
+                    game.price
+                  )}</td>
+                  <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-right">
+                      <button onclick='addToCart(${JSON.stringify({
+                        id: game.id,
+                        name: game.title,
+                        price: game.price,
+                        type: "game",
+                      })})' class="bg-gray-800 dark:bg-gray-600 hover:bg-brand-500 dark:hover:bg-brand-500 text-white px-3 py-1.5 rounded-md text-xs sm:text-sm transition-colors shadow-sm">
+                          <i class="fa-solid fa-plus sm:mr-1"></i> <span class="hidden sm:inline">Tambah</span>
+                      </button>
+                  </td>
+              `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // ==========================================
+      // AUTHENTICATION LOGIC (MOCK)
+      // ==========================================
+      function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById("usernameInput").value;
+        const wa = document.getElementById("waInput").value;
+
+        if (username.trim() === "") return;
+
+        state.user = { name: username, wa: wa };
+        localStorage.setItem("df_user", JSON.stringify(state.user));
+
+        closeModal("loginModal");
+        updateAuthUI();
+        showToast(`Selamat datang, ${username}!`);
+      }
+
+      function handleLogout() {
+        state.user = null;
+        localStorage.removeItem("df_user");
+        updateAuthUI();
+        showToast("Berhasil keluar.");
+      }
+
+      function updateAuthUI() {
+        const dContainer = document.getElementById("authContainerDesktop");
+        const mContainer = document.getElementById("authContainerMobile");
+
+        if (state.user) {
+          const html = `
+                  <div class="relative group cursor-pointer flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                      <i class="fa-solid fa-user-astronaut text-brand-500"></i>
+                      <span class="text-sm font-semibold truncate max-w-[100px]">${state.user.name}</span>
+                      <button onclick="handleLogout()" class="ml-2 text-xs text-red-500 hover:text-red-700"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                  </div>
+              `;
+          dContainer.innerHTML = html;
+          mContainer.innerHTML = `<div class="w-full flex justify-between items-center bg-gray-100 dark:bg-gray-800 p-3 rounded-lg"><span class="font-semibold text-brand-500"><i class="fa-solid fa-user mr-2"></i>${state.user.name}</span><button onclick="handleLogout(); toggleMobileMenu();" class="text-red-500 text-sm"><i class="fa-solid fa-power-off"></i></button></div>`;
+        } else {
+          const loginBtn = `<button onclick="openModal('loginModal')" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 dark:bg-gray-700 rounded-lg hover:bg-brand-500 dark:hover:bg-brand-500 transition">Login</button>`;
+          dContainer.innerHTML = loginBtn;
+          mContainer.innerHTML = `<button onclick="openModal('loginModal'); toggleMobileMenu();" class="w-full py-2 text-center text-sm font-medium text-white bg-brand-500 rounded-lg">Login / Daftar</button>`;
+        }
+      }
+
+      // ==========================================
+      // CART LOGIC
+      // ==========================================
+      function addToCart(item) {
+        if (!state.user) {
+          showToast("Silakan login terlebih dahulu untuk memesan.");
+          openModal("loginModal");
+          return;
+        }
+
+        // Check if item already in cart
+        const existing = state.cart.find((i) => i.id === item.id);
+        if (existing) {
+          showToast(`${item.name} sudah ada di keranjang!`);
+          // optionally flash the cart drawer
+          return;
+        }
+
+        state.cart.push(item);
+        saveCartState();
+        showToast(`${item.name} ditambahkan!`);
+
+        // Animate badge
+        const badge = document.getElementById("cartBadgeDesktop");
+        badge.classList.add("animate-ping");
+        setTimeout(() => badge.classList.remove("animate-ping"), 300);
+      }
+
+      function removeFromCart(index) {
+        state.cart.splice(index, 1);
+        saveCartState();
+      }
+
+      function saveCartState() {
+        localStorage.setItem("df_cart", JSON.stringify(state.cart));
+        updateCartUI();
+      }
+
+      function updateCartUI() {
+        // Update Badges
+        const count = state.cart.length;
+        const badgeD = document.getElementById("cartBadgeDesktop");
+        const badgeM = document.getElementById("cartBadgeMobile");
+
+        if (count > 0) {
+          badgeD.textContent = count;
+          badgeM.textContent = count;
+          badgeD.classList.remove("hidden");
+          badgeM.classList.remove("hidden");
+        } else {
+          badgeD.classList.add("hidden");
+          badgeM.classList.add("hidden");
+        }
+
+        // Update Drawer Items
+        const container = document.getElementById("cartItemsContainer");
+        const totalEl = document.getElementById("cartTotal");
+
+        if (count === 0) {
+          container.innerHTML = `
+                  <div class="flex-grow flex flex-col items-center justify-center text-gray-400 h-full mt-20">
+                      <i class="fa-solid fa-basket-shopping text-5xl mb-4 opacity-50"></i>
+                      <p class="font-medium">Keranjang masih kosong.</p>
+                      <button onclick="toggleCart()" class="mt-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-sm text-gray-700 dark:text-gray-300">Tutup</button>
+                  </div>`;
+          totalEl.textContent = "Rp 0";
+          return;
+        }
+
+        let html = "";
+        let total = 0;
+
+        state.cart.forEach((item, index) => {
+          total += item.price;
+          const icon =
+            item.type === "paket"
+              ? '<i class="fa-solid fa-box text-brand-500"></i>'
+              : '<i class="fa-solid fa-compact-disc text-blue-500"></i>';
+
+          html += `
+                  <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-100 dark:border-gray-600">
+                      <div class="flex items-center gap-3 overflow-hidden">
+                          <div class="w-10 h-10 rounded bg-gray-100 dark:bg-gray-600 flex items-center justify-center flex-shrink-0">
+                              ${icon}
+                          </div>
+                          <div class="truncate">
+                              <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">${
+                                item.name
+                              }</h4>
+                              <p class="text-xs text-brand-500 font-medium">${formatRupiah(
+                                item.price
+                              )}</p>
+                          </div>
+                      </div>
+                      <button onclick="removeFromCart(${index})" class="p-2 text-gray-400 hover:text-red-500 transition flex-shrink-0">
+                          <i class="fa-solid fa-trash-can"></i>
+                      </button>
+                  </div>
+              `;
+        });
+
+        container.innerHTML = html;
+        totalEl.textContent = formatRupiah(total);
+      }
+
+      function checkoutToWhatsApp() {
+        if (state.cart.length === 0) {
+          showToast("Keranjang kosong!");
+          return;
+        }
+
+        let text = `Halo Admin Dragonfire!\nSaya *${state.user.name}* ingin memesan:\n\n`;
+        let total = 0;
+
+        state.cart.forEach((item, i) => {
+          text += `${i + 1}. ${item.name} - ${formatRupiah(item.price)}\n`;
+          total += item.price;
+        });
+
+        text += `\n*Total Tagihan: ${formatRupiah(total)}*`;
+        text += `\n\nMohon info pembayaran. Terima kasih.`;
+
+        const waUrl = `https://wa.me/62895352660985?text=${encodeURIComponent(
+          text
+        )}`;
+        window.open(waUrl, "_blank");
+
+        // Clear cart after redirect
+        state.cart = [];
+        saveCartState();
+        toggleCart();
+      }
+
+      // ==========================================
+      // MODAL & UI UTILITIES
+      // ==========================================
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        document.getElementById("toastMessage").textContent = message;
+
+        // Show
+        toast.classList.remove("translate-x-full", "opacity-0");
+
+        // Hide after 3s
+        setTimeout(() => {
+          toast.classList.add("translate-x-full", "opacity-0");
+        }, 3000);
+      }
+
+      function openModal(id) {
+        document.getElementById("modalOverlay").classList.remove("hidden");
+        // slight delay for transition
+        setTimeout(() => {
+          document.getElementById("modalOverlay").classList.remove("opacity-0");
+          const modal = document.getElementById(id);
+          modal.classList.remove("hidden");
+          setTimeout(() => {
+            modal.classList.remove("opacity-0", "scale-95");
+          }, 10);
+        }, 10);
+      }
+
+      function closeModal(id) {
+        const modal = document.getElementById(id);
+        modal.classList.add("opacity-0", "scale-95");
+        document.getElementById("modalOverlay").classList.add("opacity-0");
+
+        setTimeout(() => {
+          modal.classList.add("hidden");
+          document.getElementById("modalOverlay").classList.add("hidden");
+        }, 300);
+      }
+
+      function closeAllModals() {
+        closeModal("loginModal");
+        const drawer = document.getElementById("cartDrawer");
+        if (!drawer.classList.contains("translate-x-full")) {
+          toggleCart();
+        }
+      }
+
+      function toggleCart() {
+        const drawer = document.getElementById("cartDrawer");
+        const overlay = document.getElementById("modalOverlay");
+
+        if (drawer.classList.contains("translate-x-full")) {
+          // Open
+          overlay.classList.remove("hidden");
+          setTimeout(() => overlay.classList.remove("opacity-0"), 10);
+          drawer.classList.remove("translate-x-full");
+        } else {
+          // Close
+          drawer.classList.add("translate-x-full");
+          overlay.classList.add("opacity-0");
+          setTimeout(() => overlay.classList.add("hidden"), 300);
+        }
+      }
+
+      let isMobileMenuOpen = false;
+      function toggleMobileMenu() {
+        const hamburger = document.getElementById("hamburger");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        isMobileMenuOpen = !isMobileMenuOpen;
+
+        if (isMobileMenuOpen) {
+          hamburger.classList.add("active");
+          mobileMenu.classList.remove("hidden");
+          document.body.classList.add("overflow-hidden");
+          setTimeout(() => {
+            mobileMenu.classList.remove("translate-x-full");
+          }, 10);
+        } else {
+          hamburger.classList.remove("active");
+          mobileMenu.classList.add("translate-x-full");
+          document.body.classList.remove("overflow-hidden");
+          setTimeout(() => {
+            mobileMenu.classList.add("hidden");
+          }, 300);
+        }
+      }
+
+      function setupBasicInteractions() {
+        // Theme Toggles
+        const toggles = ["themeToggleDesktop", "themeToggleMobile"];
+        toggles.forEach((id) => {
+          const btn = document.getElementById(id);
+          if (btn) {
+            btn.addEventListener("click", () => {
+              document.documentElement.classList.toggle("dark");
+              localStorage.setItem(
+                "theme",
+                document.documentElement.classList.contains("dark")
+                  ? "dark"
+                  : "light"
+              );
+            });
+          }
+        });
+
+        // Mobile Menu
+        document
+          .getElementById("hamburger")
+          ?.addEventListener("click", toggleMobileMenu);
+        document.querySelectorAll(".mobile-link").forEach((link) => {
+          link.addEventListener("click", toggleMobileMenu);
+        });
+
+        // Search logic
+        const searchInput = document.getElementById("gameSearch");
+        const noResults = document.getElementById("noResults");
+        const gameTable = document.getElementById("gameTable");
+
+        if (searchInput) {
+          searchInput.addEventListener("keyup", function () {
+            const filter = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll("#gameTableBody tr");
+            let visibleCount = 0;
+
+            tableRows.forEach((row) => {
+              const text = row.querySelector("td").textContent.toLowerCase();
+              if (text.includes(filter)) {
+                row.style.display = "";
+                visibleCount++;
+              } else {
+                row.style.display = "none";
+              }
+            });
+
+            if (visibleCount === 0) {
+              gameTable.classList.add("hidden");
+              noResults.classList.remove("hidden");
+            } else {
+              gameTable.classList.remove("hidden");
+              noResults.classList.add("hidden");
+            }
+          });
+        }
+
+        // Scroll Reveal Observer
+        const revealElements = document.querySelectorAll(
+          ".reveal, .reveal-left, .reveal-right"
+        );
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+        );
+
+        revealElements.forEach((el) => revealObserver.observe(el));
+      }
+    </script>
+  </body>
+</html>
